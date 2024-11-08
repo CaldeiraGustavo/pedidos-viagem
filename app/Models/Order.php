@@ -11,11 +11,11 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
-        'destination'
-        'departure'
-        'return'
-        'status'
+        'name',
+        'destination',
+        'departure',
+        'return',
+        'status',
     ];
 
     /**

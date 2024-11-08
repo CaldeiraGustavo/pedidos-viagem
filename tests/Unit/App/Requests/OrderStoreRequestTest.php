@@ -24,8 +24,8 @@ class OrderStoreRequestTest extends TestCase
         $expect = [
             'name' => ['required', 'string', 'max:50'],
             'destination' => ['required', 'string', 'max:100'],
-            'departure' => ['required', 'date', 'before:return'],
-            'return' => ['required', 'date', 'after:departure'],
+            'departure' => ['required', 'date', 'date_format:Y-m-d', 'before:return'],
+            'return' => ['required', 'date', 'date_format:Y-m-d', 'after:departure'],
             'status' => ['required', Rule::enum(OrderStatus::class)],
         ];
 
@@ -78,7 +78,7 @@ class OrderStoreRequestTest extends TestCase
                 self::factoryToTest(['departure' => 'null']),
             ],
             [//departure date after return date
-                self::factoryToTest(['departure' => Carbon::tomorrow()->format('d/m/Y')]),
+                self::factoryToTest(['departure' => Carbon::tomorrow()->format('Y-m-d')]),
             ],
             [//no return date
                 self::factoryToTest(['return' => null]),
@@ -87,7 +87,7 @@ class OrderStoreRequestTest extends TestCase
                 self::factoryToTest(['return' => 'null']),
             ],
             [//return date before departure date
-                self::factoryToTest(['return' => Carbon::yesterday()->format('d/m/Y')]),
+                self::factoryToTest(['return' => Carbon::yesterday()->format('Y-m-d')]),
             ],
             [//no status
                 self::factoryToTest(['status' => null]),

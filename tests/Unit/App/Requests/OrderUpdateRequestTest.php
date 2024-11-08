@@ -21,7 +21,11 @@ class OrderUpdateRequestTest extends TestCase
     public function testShouldBeAllRules()
     {
         $expect = [
-            'status' => ['required', Rule::enum(OrderStatus::class)],
+            'status' => [
+                'required',
+                Rule::enum(OrderStatus::class)
+                ->only([OrderStatus::APPROVED, OrderStatus::CANCELED])
+            ],
         ];
 
         $this->assertEquals($expect, $this->request->rules());
@@ -59,13 +63,16 @@ class OrderUpdateRequestTest extends TestCase
             [//status invalid
                 self::factoryToTest(['status' => fake()->name()]),
             ],
+            [//status invalid
+                self::factoryToTest(['status' => OrderStatus::REQUESTED]),
+            ],
         ];
     }
 
     private static function factoryToTest($overrides = [])
     {
         $defaults = [
-            'status' => fake()->randomElement(array_column(OrderStatus::cases(), 'value')),
+            'status' => fake()->randomElement([OrderStatus::APPROVED, OrderStatus::CANCELED]),
         ];
 
         return array_merge($defaults, $overrides);

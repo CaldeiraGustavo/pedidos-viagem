@@ -6,5 +6,5 @@ enum OrderStatus: string
 {
     case REQUESTED = 'Requested';
     case APPROVED = 'Approved';
-    case CLOSED = 'Closed';
+    case CANCELED = 'Canceled';
 }

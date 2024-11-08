@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\{Request, Response};
+use App\Repositories\Contracts\OrderRepositoryInterface;
 use App\Http\Requests\{
     OrderStoreRequest,
     OrderUpdateRequest
@@ -10,6 +11,10 @@ use App\Http\Requests\{
 
 class OrderController extends Controller
 {
+    public function __construct(private OrderRepositoryInterface $repository)
+    {
+
+    }
     /**
      * Display a listing of the resource.
      */
@@ -23,7 +28,7 @@ class OrderController extends Controller
      */
     public function store(OrderStoreRequest $request)
     {
-        //
+        $this->repository->create($request->validated());
     }
 
     /**
@@ -31,14 +36,20 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $order = $this->repository->find($id);
+
+        if (!$order) {
+            return response()->json(['message' => 'Order not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($order, Response::HTTP_CREATED);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function updateStatus(Request $request, string $id)
+    public function updateStatus(OrderUpdateRequest $request, string $id)
     {
-        //
+        $this->repository->updateById($id, $request->validated());
     }
 }

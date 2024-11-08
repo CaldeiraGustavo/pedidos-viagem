@@ -1,0 +1,70 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Documentação Pedidos de viagens",
+        "description": "Swagger Pedidos de viagens",
+        "contact": {
+            "email": "gustavo.caldeira1@outlook.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api"
+        }
+    ],
+    "paths": {
+        "/orders": {
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "description": "Lista todas as cidades de um estado",
+                "operationId": "b2fecac9dec0cdfa315b817cbb0066e0",
+                "responses": {
+                    "500": {
+                        "description": "Erro interno do servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Mensagem de erro da exception",
+                                        "value": {
+                                            "message": "Exemplo de mensagem de erro"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "amei_key": {
+                "type": "apiKey",
+                "description": "Entre com o token gerado pelo Amei",
+                "name": "Authentication",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Order",
+            "description": "Order"
+        }
+    ]
+}

@@ -23,16 +23,16 @@ namespace App\Http\Controllers;
  * ),
  *
  * @OA\SecurityScheme(
- *   securityScheme="amei_key",
+ *   securityScheme="apikey",
  *   type="apiKey",
  *   in="header",
- *   name="Authentication",
- *   description="Entre com o token gerado pelo Amei",
+ *   name="Authorization",
+ *   description="Please enter the authorization token.",
  * ),
  *
  * @OA\Tag(
- *     name="City",
- *     description="Endpoints relacionados a cidades/estados"
+ *     name="Order",
+ *     description="Endpoints to control travel orders"
  * )
  */
 abstract class Controller

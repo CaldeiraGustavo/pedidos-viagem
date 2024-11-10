@@ -18,14 +18,49 @@
         }
     ],
     "paths": {
-        "/orders": {
+        "/order": {
             "get": {
                 "tags": [
                     "Order"
                 ],
-                "description": "Lista todas as cidades de um estado",
-                "operationId": "b2fecac9dec0cdfa315b817cbb0066e0",
+                "description": "Lista todas as notícias vindas da agencia sebrae de notícias.",
+                "operationId": "0856cea0d3370eecc583e7f77b8b3495",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Quantidade máxima de registros por página",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "9"
+                    }
+                ],
                 "responses": {
+                    "200": {
+                        "description": "Retorna notícias da agencia sebrae",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PaginatedOrderResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "description": "Erro interno do servidor.",
                         "content": {
@@ -33,9 +68,9 @@
                                 "schema": {},
                                 "examples": {
                                     "result": {
-                                        "summary": "Mensagem de erro da exception",
+                                        "summary": "Exception error message",
                                         "value": {
-                                            "message": "Exemplo de mensagem de erro"
+                                            "message": "Example error message"
                                         }
                                     }
                                 }
@@ -48,15 +83,380 @@
                         "api_token": []
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Cadastra alguém no formulário do programa",
+                "description": "Cadastra alguém no formulário",
+                "operationId": "7ba54becef4b6acf5e298e3b83936d12",
+                "requestBody": {
+                    "description": "Dados necessários para validação de cadastro no formulário",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OrderStoreRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Formulário cadastrado com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "message": {
+                                        "summary": "Mensagem de sucesso",
+                                        "value": {
+                                            "message": "Cadastrado com sucesso."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Exception error message",
+                                        "value": {
+                                            "message": "Example error message"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Entrada de dados inválida.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpResponseException"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Exception error message",
+                                        "value": {
+                                            "message": "Example error message"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apikey": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Atualiza o vendedor",
+                "description": "Atualiza o vendedor",
+                "operationId": "7044dc534d453672d85ff369776a119a",
+                "requestBody": {
+                    "description": "Dados necessários para validação de atualização de vendedor",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OrderUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Vendedor atualizado com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OrderResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Exception error message",
+                                        "value": {
+                                            "message": "Example error message"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Entrada de dados inválida.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpResponseException"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Exception error message",
+                                        "value": {
+                                            "message": "Example error message"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "amei_key": [],
+                        "api_token": []
+                    }
+                ]
             }
         }
     },
     "components": {
+        "schemas": {
+            "HttpResponseException": {
+                "title": "HttpResponseException",
+                "description": "Class HttpResponseException",
+                "properties": {
+                    "message": {
+                        "title": "message",
+                        "description": "Main error message",
+                        "type": "string",
+                        "format": "string",
+                        "example": "Error message"
+                    },
+                    "errors": {
+                        "properties": {
+                            "error_key": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": "Error message refering to error_key"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "HttpResponseException"
+                }
+            },
+            "OrderStoreRequest": {
+                "title": "OrderStoreRequest",
+                "description": "Class OrderStoreRequest",
+                "required": [
+                    "interesses"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "User name",
+                        "type": "string",
+                        "format": "string",
+                        "example": "João de Souza"
+                    },
+                    "destination": {
+                        "title": "destination",
+                        "description": "User destination",
+                        "type": "string",
+                        "format": "string",
+                        "example": "Santo Antônio do Itambé"
+                    },
+                    "departure": {
+                        "title": "departure",
+                        "description": "Telefone",
+                        "type": "string",
+                        "format": "string",
+                        "example": "31 3625-3355"
+                    },
+                    "return": {
+                        "title": "cidade",
+                        "description": "Cidade",
+                        "type": "string",
+                        "format": "string",
+                        "example": "São Joaquim de Bicas"
+                    },
+                    "status": {
+                        "title": "status",
+                        "description": "Request Status",
+                        "type": "string",
+                        "format": "string",
+                        "default": "REQUESTED",
+                        "enum": [
+                            "REQUESTED",
+                            "APPROVED",
+                            "CANCELED"
+                        ],
+                        "example": "REQUESTED"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "OrderStoreRequest"
+                }
+            },
+            "OrderUpdateRequest": {
+                "title": "OrderUpdateRequest",
+                "description": "Class OrderUpdateRequest",
+                "required": [
+                    "interesses"
+                ],
+                "properties": {
+                    "status": {
+                        "title": "status",
+                        "description": "Request Status",
+                        "type": "string",
+                        "format": "string",
+                        "default": "REQUESTED",
+                        "enum": [
+                            "REQUESTED",
+                            "APPROVED",
+                            "CANCELED"
+                        ],
+                        "example": "REQUESTED"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "OrderUpdateRequest"
+                }
+            },
+            "OrderResource": {
+                "title": "OrderResource",
+                "description": "Class OrderResource",
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "User name",
+                        "type": "string",
+                        "format": "string",
+                        "example": "João de Souza"
+                    },
+                    "destination": {
+                        "title": "destination",
+                        "description": "User destination",
+                        "type": "string",
+                        "format": "string",
+                        "example": "Santo Antônio do Itambé"
+                    },
+                    "departure": {
+                        "title": "departure",
+                        "description": "Departure date",
+                        "type": "string",
+                        "format": "string",
+                        "example": "2023-02-13"
+                    },
+                    "return": {
+                        "title": "return",
+                        "description": "Return date",
+                        "type": "string",
+                        "format": "string",
+                        "example": "2023-02-14"
+                    },
+                    "status": {
+                        "title": "status",
+                        "description": "Request Status",
+                        "type": "string",
+                        "format": "string",
+                        "default": "REQUESTED",
+                        "enum": [
+                            "REQUESTED",
+                            "APPROVED",
+                            "CANCELED"
+                        ],
+                        "example": "REQUESTED"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "OrderResource"
+                }
+            },
+            "PaginatedOrderResource": {
+                "title": "PaginatedOrderResource",
+                "description": "Class PaginatedOrderResource",
+                "properties": {
+                    "currentPage": {
+                        "title": "currentPage",
+                        "description": "Página atual",
+                        "format": "integer",
+                        "example": 1
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderResource"
+                        }
+                    },
+                    "lastPage": {
+                        "title": "lastPage",
+                        "description": "Ultima página",
+                        "format": "integer",
+                        "example": 10
+                    },
+                    "total": {
+                        "title": "total",
+                        "description": "Total de páginas",
+                        "format": "integer",
+                        "example": 15
+                    },
+                    "perPage": {
+                        "title": "perPage",
+                        "description": "Ultima página",
+                        "format": "integer",
+                        "example": 10
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "PaginatedOrderResource"
+                }
+            }
+        },
         "securitySchemes": {
-            "amei_key": {
+            "apikey": {
                 "type": "apiKey",
-                "description": "Entre com o token gerado pelo Amei",
-                "name": "Authentication",
+                "description": "Please enter the authorization token.",
+                "name": "Authorization",
                 "in": "header"
             }
         }
@@ -64,7 +464,7 @@
     "tags": [
         {
             "name": "Order",
-            "description": "Order"
+            "description": "Endpoints to control travel orders"
         }
     ]
 }

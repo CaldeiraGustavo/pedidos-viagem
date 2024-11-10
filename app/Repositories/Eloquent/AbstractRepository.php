@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Pagination\Paginator;
 
 abstract class AbstractRepository
 {
@@ -102,27 +103,13 @@ abstract class AbstractRepository
         return $models;
     }
 
-    /**
-     * @param  array  $attributes
-     * @param  array  $options
-     * @return mixed
-     */
-    public function update(array $attributes = [], array $options = [])
+    public function where($column, $value, $operator = '=')
     {
-        $this->newQuery()->mountWhere();
-        $models = $this->query->update($attributes, $options);
-
-        return $models;
+        return $this->model->where($column, $value, $operator);
     }
 
-    public function firstOrNew(array $attributes, array $values = [])
+    public function paginate(int $limit): Paginator
     {
-        return $this->model->firstOrNew($attributes, $values);
+        return $this->model->paginate($limit);
     }
-
-    public function updateOrCreate(array $attributes, array $values = [])
-    {
-        return $this->model->updateOrCreate($attributes, $values);
-    }
-
 }

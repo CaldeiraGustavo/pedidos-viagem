@@ -6,8 +6,28 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Enums\OrderStatus;
 
+/**
+ * Class OrderUpdateRequest
+ *
+ * @OA\Schema(title="OrderUpdateRequest", required={"interesses"}, @OA\Xml(name="OrderUpdateRequest"))
+ */
 class OrderUpdateRequest extends FormRequest
 {
+
+    /**
+     * @OA\Property(
+     *     format="string",
+     *     description="Request Status",
+     *     title="status",
+     *     example="REQUESTED",
+     *     enum={"REQUESTED", "APPROVED", "CANCELED"},
+     *     default="REQUESTED"
+     * )
+     *
+     * @var string
+     */
+    protected $status;
+
     /**
      * Determine if the user is authorized to make this request.
      */

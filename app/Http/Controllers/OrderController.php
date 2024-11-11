@@ -23,7 +23,7 @@ class OrderController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/order",
+     *     path="/orders",
      *     description="List all orders",
      *     description="List all orders",
      *     security={{ "api_token": {} }},
@@ -84,7 +84,7 @@ class OrderController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/order",
+     *      path="/orders",
      *      tags={"Order"},
      *      summary="Create order",
      *      description="Create order",
@@ -126,11 +126,16 @@ class OrderController extends Controller
     public function store(OrderStoreRequest $request)
     {
         $this->repository->create($request->validated());
+
+        return response()->json(
+            ['message' => 'Saved successfully.'],
+            Response::HTTP_CREATED
+        );
     }
 
     /**
      * @OA\Get(
-     *     path="/order/{id}",
+     *     path="/orders/{id}",
      *     description="Return all data from a order by ID",
      *     description="Return all data from a order by ID",
      *     security={{ "api_token": {} }},
@@ -188,11 +193,18 @@ class OrderController extends Controller
 
     /**
      * @OA\Patch(
-     *     path="/order",
+     *     path="/orders/{id}/status",
      *     tags={"Order"},
      *     summary="Update order status",
      *     description="Update order status",
      *     security={{ "api_token": {} }},
+     *     @OA\Parameter(
+     *        description="id",
+     *        in="path",
+     *        name="id",
+     *        example="1",
+     *        required=true,
+     *     ),
      *     @OA\RequestBody(
      *          description="Needed data to update order status",
      *          required=true,
@@ -210,6 +222,14 @@ class OrderController extends Controller
      *                  value={"message": "Example error message"},
      *                  summary="Exception error message"))),
      *     @OA\Response(
+     *          response=404,
+     *          description="Not found.",
+     *          @OA\JsonContent(
+     *              @OA\Examples(
+     *                  example="result",
+     *                  value={"message": "Order not found"},
+     *                  summary="Error message"))),
+     *     @OA\Response(
      *          response=422,
      *          description="Invalid data.",
      *          @OA\JsonContent(ref="#/components/schemas/HttpResponseException")),
@@ -225,6 +245,17 @@ class OrderController extends Controller
      */
     public function updateStatus(OrderUpdateRequest $request, string $id)
     {
-        $this->repository->updateById($id, $request->validated());
+        $order = $this->repository->find($id);
+
+        if (!$order) {
+            return response()->json(
+                ['message' => 'Order not found'],
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        $order->update($request->validated());
+
+        return response()->json(new OrderResource($order), Response::HTTP_OK);
     }
 }

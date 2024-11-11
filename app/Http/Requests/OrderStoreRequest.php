@@ -40,9 +40,9 @@ class OrderStoreRequest extends FormRequest
     /**
      * @OA\Property(
      *     format="string",
-     *     description="Telefone",
+     *     description="Departure date",
      *     title="departure",
-     *     example="31 3625-3355"
+     *     example="2023-02-13"
      * )
      *
      * @var string
@@ -52,9 +52,9 @@ class OrderStoreRequest extends FormRequest
     /**
      * @OA\Property(
      *     format="string",
-     *     description="Cidade",
-     *     title="cidade",
-     *     example="São Joaquim de Bicas"
+     *     description="Return date",
+     *     title="return",
+     *     example="2023-02-14"
      * )
      *
      * @var string

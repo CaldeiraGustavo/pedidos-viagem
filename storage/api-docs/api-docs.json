@@ -18,13 +18,13 @@
         }
     ],
     "paths": {
-        "/order": {
+        "/orders": {
             "get": {
                 "tags": [
                     "Order"
                 ],
                 "description": "List all orders",
-                "operationId": "0856cea0d3370eecc583e7f77b8b3495",
+                "operationId": "325fd3d55bbe9bb39645269928fa4983",
                 "parameters": [
                     {
                         "name": "page",
@@ -106,7 +106,7 @@
                 ],
                 "summary": "Create order",
                 "description": "Create order",
-                "operationId": "7ba54becef4b6acf5e298e3b83936d12",
+                "operationId": "445bab4f7dc9ea6fcd54f286c0209478",
                 "requestBody": {
                     "description": "Requested data to create a order",
                     "required": true,
@@ -183,100 +183,22 @@
                         "api_token": []
                     }
                 ]
-            },
-            "patch": {
-                "tags": [
-                    "Order"
-                ],
-                "summary": "Update order status",
-                "description": "Update order status",
-                "operationId": "7044dc534d453672d85ff369776a119a",
-                "requestBody": {
-                    "description": "Needed data to update order status",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/OrderUpdateRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Vendedor atualizado com sucesso.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/OrderResource"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated.",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "examples": {
-                                    "result": {
-                                        "summary": "Exception error message",
-                                        "value": {
-                                            "message": "Example error message"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Invalid data.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HttpResponseException"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "examples": {
-                                    "result": {
-                                        "summary": "Exception error message",
-                                        "value": {
-                                            "message": "Example error message"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "api_token": []
-                    }
-                ]
             }
         },
-        "/order/{id}": {
+        "/orders/{id}": {
             "get": {
                 "tags": [
                     "Order"
                 ],
                 "description": "Return all data from a order by ID",
-                "operationId": "e4b2de697b8fa4c5ed4946a8d771996e",
+                "operationId": "f088d34a2737782215f435f854e31de5",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
                         "description": "id",
                         "required": true,
-                        "example": "teste-1"
+                        "example": "1"
                     }
                 ],
                 "responses": {
@@ -318,6 +240,111 @@
                                             "message": "Order not found"
                                         }
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Exception error message",
+                                        "value": {
+                                            "message": "Example error message"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/orders/{id}/status": {
+            "patch": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Update order status",
+                "description": "Update order status",
+                "operationId": "579bcf347ab0f4a9c09499b54d03176f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "example": "1"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Needed data to update order status",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OrderUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Vendedor atualizado com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OrderResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Exception error message",
+                                        "value": {
+                                            "message": "Example error message"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Error message",
+                                        "value": {
+                                            "message": "Order not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HttpResponseException"
                                 }
                             }
                         }
@@ -401,17 +428,17 @@
                     },
                     "departure": {
                         "title": "departure",
-                        "description": "Telefone",
+                        "description": "Departure date",
                         "type": "string",
                         "format": "string",
-                        "example": "31 3625-3355"
+                        "example": "2023-02-13"
                     },
                     "return": {
-                        "title": "cidade",
-                        "description": "Cidade",
+                        "title": "return",
+                        "description": "Return date",
                         "type": "string",
                         "format": "string",
-                        "example": "São Joaquim de Bicas"
+                        "example": "2023-02-14"
                     },
                     "status": {
                         "title": "status",

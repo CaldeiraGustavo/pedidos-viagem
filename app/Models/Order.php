@@ -26,7 +26,6 @@ class Order extends Model
     protected function casts(): array
     {
         return [
-            'status' => OrderStatus::class,
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];

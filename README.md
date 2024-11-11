@@ -7,60 +7,35 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# Onfly | Teste técnico PHP
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Você precisa desenvolver um microsserviço em Laravel para gerenciar pedidos de viagem corporativa. O microsserviço deve expor uma API REST para as seguintes operações:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. **Criar um pedido de viagem**: Um pedido deve incluir o ID do pedido, o nome do solicitante, o destino, a data de ida, a data de volta e o status (solicitado, aprovado, cancelado).
+2. **Atualizar o status de um pedido de viagem**: Possibilitar a atualização do status para "aprovado" ou "cancelado".
+3. **Consultar um pedido de viagem**: Retornar as informações detalhadas de um pedido de viagem com base no ID fornecido.
+4. **Listar todos os pedidos de viagem**: Retornar todos os pedidos de viagem cadastrados, com a opção de filtrar por status.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Parecer sobre dados Técnicos
 
-## Learning Laravel
+1. [x] Utilize o framework **Laravel** (versão mais recente possível).
+2. [x] A API deve seguir as boas práticas de arquitetura de microsserviços.
+3. [x] Utilize um **banco de dados relacional** (MySQL) e forneça uma migração para a estrutura das tabelas necessárias.
+4. [x] Implemente **validação** de dados no backend e tratamento de erros apropriado.
+5. [x] Escreva **testes automatizados** (preferencialmente com PHPUnit) para as principais funcionalidades.
+6. [x] Utilize **Docker** para facilitar a execução do serviço. A aplicação deve poder ser executada via Docker.
+7. [x] Implemente **autenticação simples** usando tokens (como JWT) para proteger a API.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Como instalar
+1. Clone o projeto: https://github.com/CaldeiraGustavo/pedidos-viagem.git
+2. Navegue até a pasta do projeto: ``` cd pedidos-viagem/ ```
+3. Rode os comandos do docker: ```docker-compose build && docker-compose up -d```
+4. Crie o arquivo .env ``` cp .env.example .env ```
+5. Acesse o container e instale as dependências do projeto: ``` composer install ```
+6. Execute o comando: ``` php artisan key:api --name="name" --credential="credential" ```
+7. Execute as migrations: ``` php artisan migrate" ```
+8. Navegue até localhost/ para acessar a documentação da API
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Informações importantes
+- O comando ``` php artisan key:api``` gera um JWT de acesso a API, sem ele não é possível acessar os endpoints;
+- Caso queira executar os testes, basta apenas configurar um arquivo .env.testing, rodar as migrations e depois utilizar ``` php artisan test ```

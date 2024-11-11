@@ -9,7 +9,10 @@ use App\Http\Requests\{
     OrderUpdateRequest,
     OrderShowRequest
 };
-use App\Http\Resources\PaginatedOrderResource;
+use App\Http\Resources\{
+    OrderResource,
+    PaginatedOrderResource
+};
 
 class OrderController extends Controller
 {
@@ -21,8 +24,8 @@ class OrderController extends Controller
     /**
      * @OA\Get(
      *     path="/order",
-     *     description="Lista todas as notícias vindas da agencia sebrae de notícias.",
-     *     description="Lista todas as notícias vindas da agencia sebrae de notícias.",
+     *     description="List all orders",
+     *     description="List all orders",
      *     security={{ "api_token": {} }},
      *     tags={"Order"},
      *     @OA\Parameter(
@@ -36,7 +39,7 @@ class OrderController extends Controller
      *        ),
      *     ),
      *     @OA\Parameter(
-     *        description="Quantidade máxima de registros por página",
+     *        description="Limit records per page",
      *        in="query",
      *        name="limit",
      *        example="9",
@@ -52,8 +55,16 @@ class OrderController extends Controller
      *              type="array",
      *              @OA\Items(ref="#/components/schemas/PaginatedOrderResource"))),
      *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated.",
+     *          @OA\JsonContent(
+     *              @OA\Examples(
+     *                  example="result",
+     *                  value={"message": "Example error message"},
+     *                  summary="Exception error message"))),
+     *     @OA\Response(
      *          response=500,
-     *          description="Erro interno do servidor.",
+     *          description="Internal server error",
      *          @OA\JsonContent(
      *              @OA\Examples(
      *                  example="result",
@@ -75,21 +86,21 @@ class OrderController extends Controller
      * @OA\Post(
      *      path="/order",
      *      tags={"Order"},
-     *      summary="Cadastra alguém no formulário do programa",
-     *      description="Cadastra alguém no formulário",
-     *      security={{ "apikey": {} }},
+     *      summary="Create order",
+     *      description="Create order",
+     *      security={{ "api_token": {} }},
      *      @OA\RequestBody(
-     *          description="Dados necessários para validação de cadastro no formulário",
+     *          description="Requested data to create a order",
      *          required=true,
      *          @OA\JsonContent(ref="#/components/schemas/OrderStoreRequest")),
      *      @OA\Response(
      *           response=201,
-     *           description="Formulário cadastrado com sucesso.",
+     *           description="Saved successfully",
      *           @OA\JsonContent(
      *               @OA\Examples(
      *                   example="message",
-     *                   value={"message": "Cadastrado com sucesso."},
-     *                   summary="Mensagem de sucesso"))),
+     *                   value={"message": "Saved successfully"},
+     *                   summary="Success message"))),
      *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated.",
@@ -100,11 +111,11 @@ class OrderController extends Controller
      *                  summary="Exception error message"))),
      *      @OA\Response(
      *           response=422,
-     *           description="Entrada de dados inválida.",
+     *           description="Invalid data.",
      *           @OA\JsonContent(ref="#/components/schemas/HttpResponseException")),
      *      @OA\Response(
      *           response=500,
-     *           description="Erro interno do servidor.",
+     *           description="Internal server error",
      *           @OA\JsonContent(
      *               @OA\Examples(
      *                   example="result",
@@ -117,26 +128,73 @@ class OrderController extends Controller
         $this->repository->create($request->validated());
     }
 
+    /**
+     * @OA\Get(
+     *     path="/order/{id}",
+     *     description="Return all data from a order by ID",
+     *     description="Return all data from a order by ID",
+     *     security={{ "api_token": {} }},
+     *     tags={"Order"},
+     *     @OA\Parameter(
+     *        description="id",
+     *        in="path",
+     *        name="id",
+     *        example="1",
+     *        required=true,
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Return all data from a order",
+     *          @OA\JsonContent(ref="#/components/schemas/OrderResource")),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated.",
+     *          @OA\JsonContent(
+     *              @OA\Examples(
+     *                  example="result",
+     *                  value={"message": "Example error message"},
+     *                  summary="Exception error message"))),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not found.",
+     *          @OA\JsonContent(
+     *              @OA\Examples(
+     *                  example="result",
+     *                  value={"message": "Order not found"},
+     *                  summary="Error message"))),
+     *     @OA\Response(
+     *          response=500,
+     *          description="Internal server error",
+     *          @OA\JsonContent(
+     *              @OA\Examples(
+     *                  example="result",
+     *                  value={"message": "Example error message"},
+     *                  summary="Exception error message"))),
+     * )
+     */
     public function show(string $id)
     {
         $order = $this->repository->find($id);
 
         if (!$order) {
-            return response()->json(['message' => 'Order not found'], Response::HTTP_NOT_FOUND);
+            return response()->json(
+                ['message' => 'Order not found'],
+                Response::HTTP_NOT_FOUND
+            );
         }
 
-        return response()->json($order, Response::HTTP_CREATED);
+        return response()->json(new OrderResource($order), Response::HTTP_OK);
     }
 
     /**
      * @OA\Patch(
      *     path="/order",
      *     tags={"Order"},
-     *     summary="Atualiza o vendedor",
-     *     description="Atualiza o vendedor",
-     *     security={{ "amei_key": {}, "api_token": {} }},
+     *     summary="Update order status",
+     *     description="Update order status",
+     *     security={{ "api_token": {} }},
      *     @OA\RequestBody(
-     *          description="Dados necessários para validação de atualização de vendedor",
+     *          description="Needed data to update order status",
      *          required=true,
      *          @OA\JsonContent(ref="#/components/schemas/OrderUpdateRequest")),
      *     @OA\Response(
@@ -153,11 +211,11 @@ class OrderController extends Controller
      *                  summary="Exception error message"))),
      *     @OA\Response(
      *          response=422,
-     *          description="Entrada de dados inválida.",
+     *          description="Invalid data.",
      *          @OA\JsonContent(ref="#/components/schemas/HttpResponseException")),
      *     @OA\Response(
      *          response=500,
-     *          description="Erro interno do servidor.",
+     *          description="Internal server error",
      *          @OA\JsonContent(
      *              @OA\Examples(
      *                  example="result",

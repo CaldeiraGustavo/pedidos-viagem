@@ -23,7 +23,7 @@ namespace App\Http\Controllers;
  * ),
  *
  * @OA\SecurityScheme(
- *   securityScheme="apikey",
+ *   securityScheme="api_token",
  *   type="apiKey",
  *   in="header",
  *   name="Authorization",

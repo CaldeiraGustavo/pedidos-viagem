@@ -38,7 +38,7 @@ class OrderStoreRequestTest extends TestCase
 
         $validator = Validator::make($validData, $this->request->rules());
 
-        $this->assertTrue(! $validator->fails());
+        $this->assertTrue($validator->passes());
     }
 
     public function testAutorizeTrue()
@@ -103,8 +103,8 @@ class OrderStoreRequestTest extends TestCase
         $defaults = [
             'name' => fake()->name(),
             'destination' => fake()->name(),
-            'departure' => Carbon::now()->format('d/m/Y'),
-            'return' => Carbon::tomorrow()->format('d/m/Y'),
+            'departure' => Carbon::now()->format('Y-m-d'),
+            'return' => Carbon::tomorrow()->format('Y-m-d'),
             'status' => fake()->randomElement(array_column(OrderStatus::cases(), 'value')),
         ];
 

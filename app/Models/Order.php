@@ -27,8 +27,6 @@ class Order extends Model
     {
         return [
             'status' => OrderStatus::class,
-            'departure' => 'datetime',
-            'return' => 'datetime',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];

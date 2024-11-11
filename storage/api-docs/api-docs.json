@@ -23,7 +23,7 @@
                 "tags": [
                     "Order"
                 ],
-                "description": "Lista todas as notícias vindas da agencia sebrae de notícias.",
+                "description": "List all orders",
                 "operationId": "0856cea0d3370eecc583e7f77b8b3495",
                 "parameters": [
                     {
@@ -39,7 +39,7 @@
                     {
                         "name": "limit",
                         "in": "query",
-                        "description": "Quantidade máxima de registros por página",
+                        "description": "Limit records per page",
                         "schema": {
                             "type": "integer",
                             "format": "int64"
@@ -61,8 +61,24 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Unauthenticated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Exception error message",
+                                        "value": {
+                                            "message": "Example error message"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "500": {
-                        "description": "Erro interno do servidor.",
+                        "description": "Internal server error",
                         "content": {
                             "application/json": {
                                 "schema": {},
@@ -88,11 +104,11 @@
                 "tags": [
                     "Order"
                 ],
-                "summary": "Cadastra alguém no formulário do programa",
-                "description": "Cadastra alguém no formulário",
+                "summary": "Create order",
+                "description": "Create order",
                 "operationId": "7ba54becef4b6acf5e298e3b83936d12",
                 "requestBody": {
-                    "description": "Dados necessários para validação de cadastro no formulário",
+                    "description": "Requested data to create a order",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -104,15 +120,15 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Formulário cadastrado com sucesso.",
+                        "description": "Saved successfully",
                         "content": {
                             "application/json": {
                                 "schema": {},
                                 "examples": {
                                     "message": {
-                                        "summary": "Mensagem de sucesso",
+                                        "summary": "Success message",
                                         "value": {
-                                            "message": "Cadastrado com sucesso."
+                                            "message": "Saved successfully"
                                         }
                                     }
                                 }
@@ -136,7 +152,7 @@
                         }
                     },
                     "422": {
-                        "description": "Entrada de dados inválida.",
+                        "description": "Invalid data.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -146,7 +162,7 @@
                         }
                     },
                     "500": {
-                        "description": "Erro interno do servidor.",
+                        "description": "Internal server error",
                         "content": {
                             "application/json": {
                                 "schema": {},
@@ -164,7 +180,7 @@
                 },
                 "security": [
                     {
-                        "apikey": []
+                        "api_token": []
                     }
                 ]
             },
@@ -172,11 +188,11 @@
                 "tags": [
                     "Order"
                 ],
-                "summary": "Atualiza o vendedor",
-                "description": "Atualiza o vendedor",
+                "summary": "Update order status",
+                "description": "Update order status",
                 "operationId": "7044dc534d453672d85ff369776a119a",
                 "requestBody": {
-                    "description": "Dados necessários para validação de atualização de vendedor",
+                    "description": "Needed data to update order status",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -214,7 +230,7 @@
                         }
                     },
                     "422": {
-                        "description": "Entrada de dados inválida.",
+                        "description": "Invalid data.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -224,7 +240,7 @@
                         }
                     },
                     "500": {
-                        "description": "Erro interno do servidor.",
+                        "description": "Internal server error",
                         "content": {
                             "application/json": {
                                 "schema": {},
@@ -242,7 +258,89 @@
                 },
                 "security": [
                     {
-                        "amei_key": [],
+                        "api_token": []
+                    }
+                ]
+            }
+        },
+        "/order/{id}": {
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "description": "Return all data from a order by ID",
+                "operationId": "e4b2de697b8fa4c5ed4946a8d771996e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "example": "teste-1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return all data from a order",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OrderResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Exception error message",
+                                        "value": {
+                                            "message": "Example error message"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Error message",
+                                        "value": {
+                                            "message": "Order not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "Exception error message",
+                                        "value": {
+                                            "message": "Example error message"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
                         "api_token": []
                     }
                 ]
@@ -453,7 +551,7 @@
             }
         },
         "securitySchemes": {
-            "apikey": {
+            "api_token": {
                 "type": "apiKey",
                 "description": "Please enter the authorization token.",
                 "name": "Authorization",

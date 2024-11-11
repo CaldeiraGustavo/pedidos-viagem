@@ -7,18 +7,20 @@ use App\Models\Order;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Testing\Fluent\AssertableJson;
 use App\Enums\OrderStatus;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class OrderControllerTest extends TestCase
 {
     use DatabaseTransactions;
+    use WithoutMiddleware;
 
     public function testShouldCreateOrderWithValidData()
     {
         $data = [
             'name' => 'Test Order',
             'destination' => 'New York',
-            'departure' => '2024-11-15',
-            'return' => '2024-11-20',
+            'departure_date' => '2024-11-15',
+            'return_date' => '2024-11-20',
             'status' => OrderStatus::REQUESTED->value,
         ];
 
@@ -38,8 +40,8 @@ class OrderControllerTest extends TestCase
         $response->assertJson([
             'name' => $order->name,
             'destination' => $order->destination,
-            'departure' => $order->departure,
-            'return' => $order->return,
+            'departure_date' => $order->departure_date,
+            'return_date' => $order->return_date,
             'status' => $order->status,
         ]);
     }
@@ -102,7 +104,7 @@ class OrderControllerTest extends TestCase
         $response->assertJsonCount(15, 'data');
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['name', 'status', 'destination', 'departure', 'return']
+                '*' => ['name', 'status', 'destination', 'departure_date', 'return_date']
             ],
             'currentPage',
             'lastPage',

@@ -21,8 +21,8 @@ class OrderFactory extends Factory
         return [
             'name' => fake()->name(),
             'destination' => fake()->name(),
-            'departure' => Carbon::now()->format('Y-m-d'),
-            'return' => Carbon::tomorrow()->format('Y-m-d'),
+            'departure_date' => Carbon::now()->format('Y-m-d'),
+            'return_date' => Carbon::tomorrow()->format('Y-m-d'),
             'status' => fake()->randomElement(array_column(OrderStatus::cases(), 'value')),
         ];
     }

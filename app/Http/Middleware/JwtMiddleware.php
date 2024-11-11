@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\ApiToken;
 use Closure;
-use Firebase\JWT\JWT;
+use Firebase\JWT\{JWT, Key};
 use Illuminate\Http\{Request, Response};
 use Illuminate\Support\Facades\Config;
 
@@ -34,8 +34,10 @@ class JwtMiddleware
             );
         }
 
+        $bearer = $request->header('Authorization');
+
         try {
-            $jwt = $this->jwt->decode(str_replace('Bearer ', '', $bearer), Config::get('app.key'), ['HS256']);
+            $jwt = $this->jwt->decode(str_replace('Bearer ', '', $bearer), new Key(Config::get('app.key'), 'HS256'));
 
             $credential = $this->apiToken->where('credential', $jwt->credential)->first();
 

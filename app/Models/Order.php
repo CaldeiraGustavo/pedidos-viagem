@@ -13,8 +13,8 @@ class Order extends Model
     protected $fillable = [
         'name',
         'destination',
-        'departure',
-        'return',
+        'departure_date',
+        'return_date',
         'status',
     ];
 

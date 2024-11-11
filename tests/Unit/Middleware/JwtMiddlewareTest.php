@@ -81,7 +81,7 @@ class JwtMiddlewareTest extends TestCase
         $this->assertEquals($response->getStatusCode(), 401);
     }
 
-    public function testShouldReturnInvalidApiKey()
+    public function testShouldReturnInactiveApiKey()
     {
         $this->request->headers->set('Authorization', 'Bearer tokens');
 
@@ -112,7 +112,7 @@ class JwtMiddlewareTest extends TestCase
         $this->assertEquals($response->getStatusCode(), 401);
         $this->assertEquals(
             json_decode($response->getContent()),
-            (object) ['message' => 'invalid apikey - report apikey valid']
+            (object) ['message' => 'inactive apikey']
         );
     }
 }

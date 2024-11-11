@@ -24,8 +24,8 @@ class OrderStoreRequestTest extends TestCase
         $expect = [
             'name' => ['required', 'string', 'max:50'],
             'destination' => ['required', 'string', 'max:100'],
-            'departure' => ['required', 'date', 'date_format:Y-m-d', 'before:return'],
-            'return' => ['required', 'date', 'date_format:Y-m-d', 'after:departure'],
+            'departure_date' => ['required', 'date', 'date_format:Y-m-d', 'before:return_date'],
+            'return_date' => ['required', 'date', 'date_format:Y-m-d', 'after:departure_date'],
             'status' => ['required', Rule::enum(OrderStatus::class)],
         ];
 
@@ -72,22 +72,22 @@ class OrderStoreRequestTest extends TestCase
                 self::factoryToTest(['destination' => str_pad('t', 105)]),
             ],
             [//no departure date
-                self::factoryToTest(['departure' => null]),
+                self::factoryToTest(['departure_date' => null]),
             ],
             [//departure date invalid
-                self::factoryToTest(['departure' => 'null']),
+                self::factoryToTest(['departure_date' => 'null']),
             ],
             [//departure date after return date
-                self::factoryToTest(['departure' => Carbon::tomorrow()->format('Y-m-d')]),
+                self::factoryToTest(['departure_date' => Carbon::tomorrow()->format('Y-m-d')]),
             ],
             [//no return date
-                self::factoryToTest(['return' => null]),
+                self::factoryToTest(['return_date' => null]),
             ],
             [//return date invalid
-                self::factoryToTest(['return' => 'null']),
+                self::factoryToTest(['return_date' => 'null']),
             ],
             [//return date before departure date
-                self::factoryToTest(['return' => Carbon::yesterday()->format('Y-m-d')]),
+                self::factoryToTest(['return_date' => Carbon::yesterday()->format('Y-m-d')]),
             ],
             [//no status
                 self::factoryToTest(['status' => null]),
@@ -103,8 +103,8 @@ class OrderStoreRequestTest extends TestCase
         $defaults = [
             'name' => fake()->name(),
             'destination' => fake()->name(),
-            'departure' => Carbon::now()->format('Y-m-d'),
-            'return' => Carbon::tomorrow()->format('Y-m-d'),
+            'departure_date' => Carbon::now()->format('Y-m-d'),
+            'return_date' => Carbon::tomorrow()->format('Y-m-d'),
             'status' => fake()->randomElement(array_column(OrderStatus::cases(), 'value')),
         ];
 

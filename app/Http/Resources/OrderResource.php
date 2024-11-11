@@ -42,25 +42,25 @@ class OrderResource extends JsonResource
      * @OA\Property(
      *     format="string",
      *     description="Departure date",
-     *     title="departure",
+     *     title="departure_date",
      *     example="2023-02-13"
      * )
      *
      * @var string
      */
-    protected $departure;
+    protected $departure_date;
 
     /**
      * @OA\Property(
      *     format="string",
      *     description="Return date",
-     *     title="return",
+     *     title="return_date",
      *     example="2023-02-14"
      * )
      *
      * @var string
      */
-    protected $return;
+    protected $return_date;
 
     /**
      * @OA\Property(
@@ -86,8 +86,8 @@ class OrderResource extends JsonResource
         return [
             'name' => $this->resource->name,
             'destination' => $this->resource->destination,
-            'departure' => Carbon::parse($this->resource->departure)->format('Y-m-d'),
-            'return' => Carbon::parse($this->resource->return)->format('Y-m-d'),
+            'departure_date' => Carbon::parse($this->resource->departure_date)->format('Y-m-d'),
+            'return_date' => Carbon::parse($this->resource->return_date)->format('Y-m-d'),
             'status' => $this->resource->status,
         ];
     }

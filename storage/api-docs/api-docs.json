@@ -298,7 +298,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Vendedor atualizado com sucesso.",
+                        "description": "Status updated successfully.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -426,15 +426,15 @@
                         "format": "string",
                         "example": "Santo Antônio do Itambé"
                     },
-                    "departure": {
-                        "title": "departure",
+                    "departure_date": {
+                        "title": "departure_date",
                         "description": "Departure date",
                         "type": "string",
                         "format": "string",
                         "example": "2023-02-13"
                     },
-                    "return": {
-                        "title": "return",
+                    "return_date": {
+                        "title": "return_date",
                         "description": "Return date",
                         "type": "string",
                         "format": "string",
@@ -445,13 +445,13 @@
                         "description": "Request Status",
                         "type": "string",
                         "format": "string",
-                        "default": "REQUESTED",
+                        "default": "Requested",
                         "enum": [
-                            "REQUESTED",
-                            "APPROVED",
-                            "CANCELED"
+                            "Requested",
+                            "Approved",
+                            "Canceled"
                         ],
-                        "example": "REQUESTED"
+                        "example": "Requested"
                     }
                 },
                 "type": "object",
@@ -471,13 +471,13 @@
                         "description": "Request Status",
                         "type": "string",
                         "format": "string",
-                        "default": "REQUESTED",
+                        "default": "Approved",
                         "enum": [
-                            "REQUESTED",
-                            "APPROVED",
-                            "CANCELED"
+                            "Requested",
+                            "Approved",
+                            "Canceled"
                         ],
-                        "example": "REQUESTED"
+                        "example": "Approved"
                     }
                 },
                 "type": "object",
@@ -503,15 +503,15 @@
                         "format": "string",
                         "example": "Santo Antônio do Itambé"
                     },
-                    "departure": {
-                        "title": "departure",
+                    "departure_date": {
+                        "title": "departure_date",
                         "description": "Departure date",
                         "type": "string",
                         "format": "string",
                         "example": "2023-02-13"
                     },
-                    "return": {
-                        "title": "return",
+                    "return_date": {
+                        "title": "return_date",
                         "description": "Return date",
                         "type": "string",
                         "format": "string",

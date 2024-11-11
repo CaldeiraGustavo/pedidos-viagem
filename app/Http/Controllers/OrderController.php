@@ -13,6 +13,8 @@ use App\Http\Resources\{
     OrderResource,
     PaginatedOrderResource
 };
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class OrderController extends Controller
 {
@@ -74,12 +76,20 @@ class OrderController extends Controller
      */
     public function index(OrderShowRequest $request)
     {
-        $status = $request->get('status') ?? null;
-        $limit = $request->get('limit') ?? 15;
+        try {
+            $status = $request->get('status') ?? null;
+            $limit = $request->get('limit') ?? 15;
 
-        $orders = $status ? $this->repository->where('status', $status)->paginate($limit) : $this->repository->paginate($limit);
+            $orders = $status ? $this->repository->where('status', $status)->paginate($limit) : $this->repository->paginate($limit);
 
-        return response()->json(new PaginatedOrderResource($orders), Response::HTTP_OK);
+            return response()->json(new PaginatedOrderResource($orders), Response::HTTP_OK);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage());
+            return response()->json(
+                ['message' => 'Internal server error'],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**
@@ -125,12 +135,20 @@ class OrderController extends Controller
      */
     public function store(OrderStoreRequest $request)
     {
-        $this->repository->create($request->validated());
+        try {
+            $this->repository->create($request->validated());
 
-        return response()->json(
-            ['message' => 'Saved successfully.'],
-            Response::HTTP_CREATED
-        );
+            return response()->json(
+                ['message' => 'Saved successfully.'],
+                Response::HTTP_CREATED
+            );
+        } catch (Throwable $e) {
+            Log::error($e->getMessage());
+            return response()->json(
+                ['message' => 'Internal server error'],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**
@@ -179,16 +197,24 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        $order = $this->repository->find($id);
+        try {
+            $order = $this->repository->find($id);
 
-        if (!$order) {
+            if (!$order) {
+                return response()->json(
+                    ['message' => 'Order not found'],
+                    Response::HTTP_NOT_FOUND
+                );
+            }
+
+            return response()->json(new OrderResource($order), Response::HTTP_OK);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage());
             return response()->json(
-                ['message' => 'Order not found'],
-                Response::HTTP_NOT_FOUND
+                ['message' => 'Internal server error'],
+                Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
-
-        return response()->json(new OrderResource($order), Response::HTTP_OK);
     }
 
     /**
@@ -211,7 +237,7 @@ class OrderController extends Controller
      *          @OA\JsonContent(ref="#/components/schemas/OrderUpdateRequest")),
      *     @OA\Response(
      *          response=200,
-     *          description="Vendedor atualizado com sucesso.",
+     *          description="Status updated successfully.",
      *          @OA\JsonContent(ref="#/components/schemas/OrderResource")),
      *     @OA\Response(
      *          response=401,
@@ -245,17 +271,25 @@ class OrderController extends Controller
      */
     public function updateStatus(OrderUpdateRequest $request, string $id)
     {
-        $order = $this->repository->find($id);
+        try {
+            $order = $this->repository->find($id);
 
-        if (!$order) {
+            if (!$order) {
+                return response()->json(
+                    ['message' => 'Order not found'],
+                    Response::HTTP_NOT_FOUND
+                );
+            }
+
+            $order->update($request->validated());
+
+            return response()->json(new OrderResource($order), Response::HTTP_OK);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage());
             return response()->json(
-                ['message' => 'Order not found'],
-                Response::HTTP_NOT_FOUND
+                ['message' => 'Internal server error'],
+                Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
-
-        $order->update($request->validated());
-
-        return response()->json(new OrderResource($order), Response::HTTP_OK);
     }
 }

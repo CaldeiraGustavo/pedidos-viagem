@@ -16,8 +16,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('destination');
-            $table->date('departure');
-            $table->date('return');
+            $table->date('departure_date');
+            $table->date('return_date');
             $table->enum('status', array_column(OrderStatus::cases(), 'value'));
             $table->timestamps();
         });

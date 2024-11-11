@@ -19,9 +19,9 @@ class OrderUpdateRequest extends FormRequest
      *     format="string",
      *     description="Request Status",
      *     title="status",
-     *     example="REQUESTED",
-     *     enum={"REQUESTED", "APPROVED", "CANCELED"},
-     *     default="REQUESTED"
+     *     example="Approved",
+     *     enum={"Requested", "Approved", "Canceled"},
+     *     default="Approved"
      * )
      *
      * @var string

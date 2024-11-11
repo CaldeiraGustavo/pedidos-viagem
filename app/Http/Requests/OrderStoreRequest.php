@@ -41,34 +41,34 @@ class OrderStoreRequest extends FormRequest
      * @OA\Property(
      *     format="string",
      *     description="Departure date",
-     *     title="departure",
+     *     title="departure_date",
      *     example="2023-02-13"
      * )
      *
      * @var string
      */
-    protected $departure;
+    protected $departure_date;
 
     /**
      * @OA\Property(
      *     format="string",
      *     description="Return date",
-     *     title="return",
+     *     title="return_date",
      *     example="2023-02-14"
      * )
      *
      * @var string
      */
-    protected $return;
+    protected $return_date;
 
     /**
      * @OA\Property(
      *     format="string",
      *     description="Request Status",
      *     title="status",
-     *     example="REQUESTED",
-     *     enum={"REQUESTED", "APPROVED", "CANCELED"},
-     *     default="REQUESTED"
+     *     example="Requested",
+     *     enum={"Requested", "Approved", "Canceled"},
+     *     default="Requested"
      * )
      *
      * @var string
@@ -93,8 +93,8 @@ class OrderStoreRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:50'],
             'destination' => ['required', 'string', 'max:100'],
-            'departure' => ['required', 'date', 'date_format:Y-m-d', 'before:return'],
-            'return' => ['required', 'date', 'date_format:Y-m-d', 'after:departure'],
+            'departure_date' => ['required', 'date', 'date_format:Y-m-d', 'before:return_date'],
+            'return_date' => ['required', 'date', 'date_format:Y-m-d', 'after:departure_date'],
             'status' => ['required', Rule::enum(OrderStatus::class)],
         ];
     }
